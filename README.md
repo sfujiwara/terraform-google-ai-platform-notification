@@ -14,11 +14,11 @@ The architecture is as below:
 This Terraform module create
 
 - Log sink to Pub/Sub topic
-- Pub/Sub topic received the logs
+- Pub/Sub topic to receive the logs
   - This topic push the logs to Cloud Run service
-- Cloud Run service received message from log topic
-  - This service check AI Platform job status using the logs
-- Pub/Sub topic received notification from Cloud Run
+- Cloud Run to receive message from log topic
+  - Cloud Run checks AI Platform job status using the logs
+- Pub/Sub topic to receive notification from Cloud Run
   - You can use this topic to know the changes of AI Platform jobs
 
 ## Message
