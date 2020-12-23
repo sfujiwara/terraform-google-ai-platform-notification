@@ -1,0 +1,8 @@
+steps:
+
+  # Show gcloud config.
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: "Show config of Google Cloud SDK"
+    args:
+      - config
+      - list
