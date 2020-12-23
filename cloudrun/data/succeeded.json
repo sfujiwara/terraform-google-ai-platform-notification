@@ -1,0 +1,18 @@
+{
+  "insertId": "mhaqnecr48",
+  "receiveTimestamp": "2020-12-21T20:18:16.669607556Z",
+  "timestamp": "2020-12-21T20:18:16.053512295Z",
+  "logName": "projects/<your-project-id>/logs/ml.googleapis.com%2F<your-job-id>",
+  "resource": {
+    "type": "ml_job",
+    "labels": {
+      "task_name": "service",
+      "job_id": "<your-job-id>",
+      "project_id": "<your-project-id>"
+    }
+  },
+  "labels": {
+    "ml.googleapis.com/endpoint": ""
+  },
+  "textPayload": "Job completed successfully."
+}

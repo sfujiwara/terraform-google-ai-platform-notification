@@ -1,0 +1,21 @@
+{
+  "insertId": "gdfrjpcfef",
+  "receiveTimestamp": "2020-12-21T20:14:30.351799706Z",
+  "timestamp": "2020-12-21T20:14:30.184Z",
+  "logName": "projects/<your-project-id>/logs/ml.googleapis.com%2F<your-job-id>",
+  "resource": {
+    "type": "ml_job",
+    "labels": {
+      "task_name": "service",
+      "job_id": "<your-job-id>",
+      "project_id": "<your-project-id>"
+    }
+  },
+  "labels": {
+    "ml.googleapis.com/job_state": "QUEUED",
+    "ml.googleapis.com/endpoint": "ml.googleapis.com"
+  },
+  "jsonPayload": {
+    "message": "Job <your-job-id> is queued."
+  }
+}

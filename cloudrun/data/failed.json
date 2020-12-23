@@ -1,0 +1,19 @@
+{
+  "insertId": "zis4i9cwby",
+  "receiveTimestamp": "2020-12-23T00:21:37.881337647Z",
+  "timestamp": "2020-12-23T00:21:37.299676258Z",
+  "logName": "projects/<your-project-id>/logs/ml.googleapis.com%2F<your-job-id>",
+  "resource": {
+    "type": "ml_job",
+    "labels": {
+      "project_id": "<your-project-id>",
+      "job_id": "<your-job-id>",
+      "task_name": "service"
+    }
+  },
+  "severity": "INFO",
+  "labels": {
+    "ml.googleapis.com/endpoint": ""
+  },
+  "textPayload": "Job failed."
+}
