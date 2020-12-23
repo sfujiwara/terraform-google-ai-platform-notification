@@ -21,6 +21,21 @@ This Terraform module create
 - Pub/Sub topic received notification from Cloud Run
   - You can use this topic to know the changes of AI Platform jobs
 
+## Message
+
+The message published to notification topic is as below:
+
+```json
+{
+  "job_id": "<AI Platform training job ID>",
+  "project_id": "<Your GCP project ID>",
+  "timestamp": "2020-12-23T21:02:36.069049148Z",
+   "job_state": "SUCCEEDED"
+}
+```
+
+`job_state` is QUEUED, SUCCEEDED, or FAILED.
+
 ## Example
 
 ```terraform
