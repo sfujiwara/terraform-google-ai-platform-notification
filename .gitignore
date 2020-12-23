@@ -1,0 +1,12 @@
+.idea
+.DS_Store
+
+# Python
+venv
+.venv
+__pycache__
+
+# Terraform
+.terraform
+.terraform.*
+terraform.*
