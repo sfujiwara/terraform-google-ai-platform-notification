@@ -30,7 +30,7 @@ The message published to notification topic is as below:
   "job_id": "<AI Platform training job ID>",
   "project_id": "<Your GCP project ID>",
   "timestamp": "2020-12-23T21:02:36.069049148Z",
-   "job_state": "SUCCEEDED"
+  "job_state": "SUCCEEDED"
 }
 ```
 
