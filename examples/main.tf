@@ -9,8 +9,8 @@ module "ai_platform_notification" {
 }
 
 resource "google_pubsub_subscription" "ai_platform_log" {
-  name    = "ai-platform-notification"
-  project = var.project_id
-  topic   = module.ai_platform_notification.notification_topic.id
+  name                 = "ai-platform-notification"
+  project              = var.project_id
+  topic                = module.ai_platform_notification.notification_topic.id
   ack_deadline_seconds = 60
 }

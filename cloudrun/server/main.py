@@ -92,7 +92,7 @@ def main() -> Tuple[str, int]:
     publisher = pubsub_v1.PublisherClient()
     future = publisher.publish(
         topic=os.environ.get("TARGET_TOPIC"),
-        data=json.dumps(output_message).encode("utf-8")
+        data=json.dumps(output_message).encode("utf-8"),
     )
 
     return "ok", 200

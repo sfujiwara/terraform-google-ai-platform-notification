@@ -1,5 +1,7 @@
 # AI Platform Notification
 
+![GitHub Actions](https://github.com/sfujiwara/terraform-google-ai-platform-notification/workflows/unit-test/badge.svg)
+
 This is an implementation to notify status changes of AI Platform training.
 
 Unfortunately, [AI Platform training does not support notification of status changes](https://stackoverflow.com/questions/59892910/is-there-a-way-to-be-notified-of-status-changes-in-google-ai-platform-training-j).
