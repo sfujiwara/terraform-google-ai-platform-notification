@@ -3,52 +3,14 @@ name: unit-test
 on: [push]
 
 jobs:
-
-  python:
+  build:
 
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
 
-      - name: Checkout
-        working-directory: ./cloudrun
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        working-directory: ./cloudrun
+      - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-
-      - name: Install dependencies
-        working-directory: ./cloudrun
-        run: |
-          pip install poetry
-          poetry config virtualenvs.in-project true
-          poetry install
-
-      - name: Run formatter
-        working-directory: ./cloudrun
-        run: poetry run black --diff --check .
-
-      - name: Unit tests
-        working-directory: ./cloudrun
-        run: poetry run pytest -sv tests
-
-
-  terraform:
-
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.12.28
-
-      - name: Terraform fmt
-        run: terraform fmt -diff -check -recursive terraform
