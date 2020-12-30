@@ -3,7 +3,8 @@ name: unit-test
 on: [push]
 
 jobs:
-  build:
+
+  python:
 
     runs-on: ubuntu-20.04
 
@@ -29,3 +30,18 @@ jobs:
       - name: Unit tests
         working-directory: cloudrun
         run: poetry run pytest -sv tests
+
+  terraform:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.28
+
+      - name: Terraform fmt
+        run: terraform fmt -diff -check -recursive terraform
