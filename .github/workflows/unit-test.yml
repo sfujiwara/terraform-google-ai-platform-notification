@@ -23,4 +23,5 @@ jobs:
           poetry install
 
       - name: Unit tests
+        working-directory: cloudrun
         run: poetry run pytest -sv tests
