@@ -1,7 +1,3 @@
-locals {
-  version = "0.0.1"
-}
-
 # Pub/Sub topic to receive AI Platform logs.
 resource "google_pubsub_topic" "ai_platform_log" {
   name    = "ai-platform-log"
@@ -58,7 +54,7 @@ resource "google_cloud_run_service" "ai_platform_notification" {
   template {
     spec {
       containers {
-        image = "gcr.io/sfujiwara/ai-platform-notification:${local.version}"
+        image = "${var.cloud_run_image}:${var.cloud_run_image_tag}"
         env {
           name  = "THREADS"
           value = 2
