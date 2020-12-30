@@ -16,6 +16,7 @@ jobs:
           python-version: 3.8
 
       - name: Install dependencies
+        working-directory: cloudrun
         run: |
           pip install poetry
           poetry config virtualenvs.in-project true
