@@ -22,6 +22,10 @@ jobs:
           poetry config virtualenvs.in-project true
           poetry install
 
+      - name: Run formatter
+        working-directory: cloudrun
+        run: poetry run black --diff --check .
+
       - name: Unit tests
         working-directory: cloudrun
         run: poetry run pytest -sv tests
