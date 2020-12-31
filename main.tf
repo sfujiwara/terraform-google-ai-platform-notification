@@ -54,7 +54,7 @@ resource "google_cloud_run_service" "ai_platform_notification" {
   template {
     spec {
       containers {
-        image = "${var.cloud_run_image}:${var.cloud_run_image_tag}"
+        image = var.cloud_run_image
         env {
           name  = "THREADS"
           value = 2

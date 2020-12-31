@@ -38,14 +38,20 @@ The message published to notification topic is as below:
 
 `job_state` is QUEUED, SUCCEEDED, or FAILED.
 
-## Example
+## Usage
 
 ```terraform
 module "ai_platform_notification" {
   source              = "github.com/sfujiwara/terraform-google-ai-platform-notification"
   project_id          = "your-project-id"
   project_number      = "your-project-number"
-  cloud_run_image     = "gcr.io/sfujiwara/ai-platform-notification"
-  cloud_run_image_tag = "0.0.1"
+  cloud_run_image     = "gcr.io/sfujiwara/ai-platform-notification:0.0.1"
 }
 ```
+
+## Docker image for Cloud Run
+
+Docker image `gcr.io/sfujiwara/ai-platform-notification` is hosted on my Google Cloud Platform project `sfujiwara`, but there is no guarantee to be maintained.
+
+I **strongly recommend** you to build and host your own Docker image with [`cloudrun/Dockerfile`](cloudrun/Dockerfile).
+ 
