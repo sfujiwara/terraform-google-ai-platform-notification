@@ -6,3 +6,17 @@ steps:
     args:
       - config
       - list
+
+  - name: "gcr.io/cloud-builders/docker"
+    id: "Build Docker image"
+    args:
+      - build
+      - --tag
+      - gcr.io/${PROJECT}/ai-platform-notification:${TAG_NAME}
+      - --tag
+      - gcr.io/${PROJECT}/ai-platform-notification:latest
+      - .
+
+images:
+  - gcr.io/${PROJECT_ID}/ai-platform-notification:${TAG_NAME}
+  - gcr.io/${PROJECT_ID}/ai-platform-notification:latest
