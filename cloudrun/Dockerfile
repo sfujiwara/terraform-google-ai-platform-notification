@@ -1,5 +1,7 @@
 FROM python:3.8.6
 
+WORKDIR /app
+
 COPY pyproject.toml pyproject.toml
 
 # Install and set up poetry.
@@ -8,5 +10,6 @@ RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev
 
 COPY server server
+COPY bin bin
 
-ENTRYPOINT ["gunicorn", "server.main:app", "--threads", "8", "--workers", "1", "--timeout", "0"]
+ENTRYPOINT ["./bin/start.sh"]
