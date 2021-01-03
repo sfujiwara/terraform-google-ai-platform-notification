@@ -10,7 +10,7 @@ resource "google_pubsub_topic" "ai_platform_notification" {
   project = var.project_id
 }
 
-# Service account to push message to Cloud Run
+# Service account to push message to Cloud Run.
 resource "google_service_account" "pubsub_sa" {
   project    = var.project_id
   account_id = "ai-platform-notification"
@@ -60,8 +60,9 @@ resource "google_cloud_run_service" "ai_platform_notification" {
           value = 2
         }
         env {
-          name  = "WORKERS"
-          value = 1
+          # Gunicorn automatically use environment variable `WEB_CONCURRENCY` as the number of workers.
+          name  = "WEB_CONCURRENCY"
+          value = 2
         }
         env {
           name  = "TARGET_TOPIC"
