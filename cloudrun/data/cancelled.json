@@ -1,0 +1,19 @@
+{
+  "textPayload": "Job cancelled.",
+  "insertId": "ozhnkbd1qpj",
+  "resource": {
+    "type": "ml_job",
+    "labels": {
+      "project_id": "<your-project-id>",
+      "job_id": "<your-job-id>",
+      "task_name": "service"
+    }
+  },
+  "timestamp": "2021-01-04T04:44:47.951810696Z",
+  "severity": "INFO",
+  "labels": {
+    "ml.googleapis.com/endpoint": ""
+  },
+  "logName": "projects/<your-project-id>/logs/ml.googleapis.com%2F<your-job-id>",
+  "receiveTimestamp": "2021-01-04T04:44:49.325725164Z"
+}

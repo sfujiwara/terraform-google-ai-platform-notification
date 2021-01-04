@@ -50,8 +50,17 @@ def is_failed(json_payload: Dict) -> bool:
 def is_queued(json_payload: Dict) -> bool:
 
     if "jsonPayload" in json_payload:
-        failed = "queued" in json_payload["jsonPayload"]["message"]
-        return failed
+        queued = "queued" in json_payload["jsonPayload"]["message"]
+        return queued
+    else:
+        return False
+
+
+def is_cancelled(json_payload: Dict) -> bool:
+
+    if "textPayload" in json_payload:
+        cancelled = "cancelled" in json_payload["textPayload"]
+        return cancelled
     else:
         return False
 
@@ -76,6 +85,8 @@ def main() -> Tuple[str, int]:
         job_state = "FAILED"
     elif is_queued(data):
         job_state = "QUEUED"
+    elif is_cancelled(data):
+        job_state = "CANCELLED"
     else:
         return "ok", 200
 
