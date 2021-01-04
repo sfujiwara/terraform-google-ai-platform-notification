@@ -25,5 +25,5 @@ options:
   dynamic_substitutions: true
 
 images:
-  - gcr.io/${PROJECT_ID}/ai-platform-notification:${TAG_NAME:1}
+  - gcr.io/${PROJECT_ID}/ai-platform-notification:${_DOCKER_TAG}
   - gcr.io/${PROJECT_ID}/ai-platform-notification:latest
