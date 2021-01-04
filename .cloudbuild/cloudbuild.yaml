@@ -13,11 +13,11 @@ steps:
     args:
       - build
       - --tag
-      - gcr.io/${PROJECT_ID}/ai-platform-notification:${TAG_NAME}
+      - gcr.io/${PROJECT_ID}/ai-platform-notification:${TAG_NAME:1}
       - --tag
       - gcr.io/${PROJECT_ID}/ai-platform-notification:latest
       - .
 
 images:
-  - gcr.io/${PROJECT_ID}/ai-platform-notification:${TAG_NAME}
+  - gcr.io/${PROJECT_ID}/ai-platform-notification:${TAG_NAME:1}
   - gcr.io/${PROJECT_ID}/ai-platform-notification:latest
