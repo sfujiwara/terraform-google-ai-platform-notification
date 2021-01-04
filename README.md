@@ -36,7 +36,7 @@ The message published to notification topic is as below:
 }
 ```
 
-`job_state` is QUEUED, SUCCEEDED, or FAILED.
+`job_state` is QUEUED, SUCCEEDED, CANCELLED, or FAILED.
 
 ## Usage
 

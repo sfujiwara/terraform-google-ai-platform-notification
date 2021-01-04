@@ -1,5 +1,6 @@
 import json
 import pytest
+from server.main import is_cancelled
 from server.main import is_failed
 from server.main import is_queued
 from server.main import is_succeeded
@@ -11,6 +12,7 @@ from server.main import is_succeeded
         ("data/succeeded.json", True),
         ("data/failed.json", False),
         ("data/queued.json", False),
+        ("data/cancelled.json", False),
     ],
 )
 def test_is_succeeded(filepath: str, result: bool):
@@ -27,6 +29,7 @@ def test_is_succeeded(filepath: str, result: bool):
         ("data/succeeded.json", False),
         ("data/failed.json", True),
         ("data/queued.json", False),
+        ("data/cancelled.json", False),
     ],
 )
 def test_is_failed(filepath: str, result: bool):
@@ -43,6 +46,7 @@ def test_is_failed(filepath: str, result: bool):
         ("data/succeeded.json", False),
         ("data/failed.json", False),
         ("data/queued.json", True),
+        ("data/cancelled.json", False),
     ],
 )
 def test_is_queued(filepath: str, result: bool):
@@ -51,3 +55,20 @@ def test_is_queued(filepath: str, result: bool):
         json_payload = json.load(f)
 
     assert is_queued(json_payload) == result
+
+
+@pytest.mark.parametrize(
+    "filepath, result",
+    [
+        ("data/succeeded.json", False),
+        ("data/failed.json", False),
+        ("data/queued.json", False),
+        ("data/cancelled.json", True),
+    ],
+)
+def test_is_cancelled(filepath: str, result: bool):
+
+    with open(filepath) as f:
+        json_payload = json.load(f)
+
+    assert is_cancelled(json_payload) == result
