@@ -42,10 +42,10 @@ The message published to notification topic is as below:
 
 ```terraform
 module "ai_platform_notification" {
-  source              = "github.com/sfujiwara/terraform-google-ai-platform-notification"
+  source              = "git::https://github.com/sfujiwara/terraform-google-ai-platform-notification.git?ref=v0.0.2"
   project_id          = "your-project-id"
   project_number      = "your-project-number"
-  cloud_run_image     = "gcr.io/sfujiwara/ai-platform-notification:0.0.1"
+  cloud_run_image     = "gcr.io/sfujiwara/ai-platform-notification:0.0.2"
 }
 ```
 
