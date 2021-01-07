@@ -1,0 +1,13 @@
+{
+  "git": {
+    "commitMessage": "chore: release v${version}",
+    "requireBranch": "main",
+    "tagName": "v${version}",
+    "requireCleanWorkingDir": true
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}",
+    "releaseNotes": "npx auto-changelog --stdout --commit-limit false --unreleased --template release.hbs"
+  }
+}
