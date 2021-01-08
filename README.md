@@ -49,6 +49,8 @@ module "ai_platform_notification" {
 }
 ```
 
+Replace `X.X.X` with the version you want to use. 
+
 ## Docker image for Cloud Run
 
 Docker image `gcr.io/sfujiwara/ai-platform-notification` is hosted on my Google Cloud Platform project `sfujiwara`, but there is no guarantee to be maintained.
