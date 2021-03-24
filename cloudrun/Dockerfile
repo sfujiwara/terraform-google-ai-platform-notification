@@ -5,7 +5,7 @@ WORKDIR /app
 COPY pyproject.toml pyproject.toml
 
 # Install and set up poetry.
-RUN pip install poetry
+RUN pip install poetry==1.0.10
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev
 

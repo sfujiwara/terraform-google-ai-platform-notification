@@ -3,13 +3,14 @@ import json
 import logging
 import os
 import sys
-import flask
-from typing import Dict, Tuple
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import Dict
 from google.cloud.logging_v2.handlers import ContainerEngineHandler
 from google.cloud import pubsub_v1
 
 
-app = flask.Flask(__name__)
+app = FastAPI()
 
 
 def get_logger() -> logging.Logger:
@@ -65,14 +66,29 @@ def is_cancelled(json_payload: Dict) -> bool:
         return False
 
 
-@app.route("/", methods=["POST"])
-def main() -> Tuple[str, int]:
+class Message(BaseModel):
+    attributes: Dict
+    data: str
+    messageId: str
+    message_id: str
+    publishTime: str
+    publish_time: str
+
+
+class PubSubMessage(BaseModel):
+    message: Message
+    subscription: str
+
+
+@app.post("/")
+def main(pubsub_message: PubSubMessage) -> Dict:
 
     logger = get_logger()
 
-    envelope: Dict = flask.request.get_json()
-    data = parse_pubsub_message(envelope)
+    data_base64 = pubsub_message.message.data
+    data: Dict = json.loads(base64.b64decode(data_base64).decode("utf-8").strip())
 
+    logger.info(pubsub_message.json())
     logger.debug(data)
 
     job_id = data["resource"]["labels"]["job_id"]
@@ -88,7 +104,7 @@ def main() -> Tuple[str, int]:
     elif is_cancelled(data):
         job_state = "CANCELLED"
     else:
-        return "ok", 200
+        return {}
 
     output_message = {
         "job_id": job_id,
@@ -100,10 +116,14 @@ def main() -> Tuple[str, int]:
     logger.info(output_message)
 
     # Publish message to Pub/Sub topic for notification.
-    publisher = pubsub_v1.PublisherClient()
-    future = publisher.publish(
-        topic=os.environ.get("TARGET_TOPIC"),
-        data=json.dumps(output_message).encode("utf-8"),
-    )
+    if os.environ.get("TARGET_TOPIC"):
+        publisher = pubsub_v1.PublisherClient()
+        future = publisher.publish(
+            topic=os.environ.get("TARGET_TOPIC"),
+            data=json.dumps(output_message).encode("utf-8"),
+        )
+        logger.info("Message was published.")
+    else:
+        logger.info("Environment variable TARGET_TOPIC is not found.")
 
-    return "ok", 200
+    return {}
