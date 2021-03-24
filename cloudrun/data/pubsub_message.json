@@ -1,0 +1,13 @@
+{
+  "message": {
+    "attributes": {
+      "logging.googleapis.com/timestamp": "2021-03-24T19:29:47.853877689Z"
+    },
+    "data": "eyJpbnNlcnRJZCI6Im81NzVmcWMzZDQiLCJsYWJlbHMiOnsibWwuZ29vZ2xlYXBpcy5jb20vZW5kcG9pbnQiOiIifSwibG9nTmFtZSI6InByb2plY3RzL3NmdWppd2FyYS9sb2dzL21sLmdvb2dsZWFwaXMuY29tJTJGZXhhbXBsZV8yMDIxMDMyNTA0MjQzNSIsInJlY2VpdmVUaW1lc3RhbXAiOiIyMDIxLTAzLTI0VDE5OjI5OjQ5LjY5NTQyOTA0MloiLCJyZXNvdXJjZSI6eyJsYWJlbHMiOnsiam9iX2lkIjoiZXhhbXBsZV8yMDIxMDMyNTA0MjQzNSIsInByb2plY3RfaWQiOiJzZnVqaXdhcmEiLCJ0YXNrX25hbWUiOiJzZXJ2aWNlIn0sInR5cGUiOiJtbF9qb2IifSwic2V2ZXJpdHkiOiJJTkZPIiwidGV4dFBheWxvYWQiOiJKb2IgY29tcGxldGVkIHN1Y2Nlc3NmdWxseS4iLCJ0aW1lc3RhbXAiOiIyMDIxLTAzLTI0VDE5OjI5OjQ3Ljg1Mzg3NzY4OVoifQ==",
+    "messageId": "2190158884340661",
+    "message_id": "2190158884340661",
+    "publishTime": "2021-03-24T19:29:50.87Z",
+    "publish_time": "2021-03-24T19:29:50.87Z"
+  },
+  "subscription": "projects/sfujiwara/subscriptions/ai-platform-log"
+}

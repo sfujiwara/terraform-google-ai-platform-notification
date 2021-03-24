@@ -1,0 +1,9 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  ai-platform-notification:
+    image: gcr.io/sfujiwara/ai-platform-notification:dev
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
