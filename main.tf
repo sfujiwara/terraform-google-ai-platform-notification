@@ -56,10 +56,6 @@ resource "google_cloud_run_service" "ai_platform_notification" {
       containers {
         image = var.cloud_run_image
         env {
-          name  = "THREADS"
-          value = 2
-        }
-        env {
           # Gunicorn automatically use environment variable `WEB_CONCURRENCY` as the number of workers.
           name  = "WEB_CONCURRENCY"
           value = 2
