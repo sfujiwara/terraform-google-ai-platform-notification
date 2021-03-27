@@ -6,9 +6,9 @@
   "resource": {
     "type": "ml_job",
     "labels": {
-      "project_id": "<your-project-id>",
+      "task_name": "service",
       "job_id": "<your-job-id>",
-      "task_name": "service"
+      "project_id": "<your-project-id>"
     }
   },
   "severity": "INFO",
