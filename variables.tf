@@ -18,5 +18,5 @@ variable "notification_topic" {
 
 variable "cloud_run_image" {
   type    = string
-  default = "gcr.io/sfujiwara/ai-platform-notification:0.0.2"
+  default = "gcr.io/sfujiwara/ai-platform-notification:0.0.3"
 }
