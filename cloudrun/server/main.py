@@ -1,83 +1,47 @@
 import base64
 import json
-import logging
 import os
-import sys
 from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import Dict
-from google.cloud.logging_v2.handlers import ContainerEngineHandler
+from typing import Dict, Optional
 from google.cloud import pubsub_v1
+from .data import PubSubMessage, Data, JobState, JsonPayload
+from .logging import get_logger
 
 
 app = FastAPI()
 
 
-def get_logger() -> logging.Logger:
+def check_job_state(data: Data) -> Optional[JobState]:
 
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(ContainerEngineHandler(stream=sys.stderr))
+    if isinstance(data.textPayload, str):
+        if "completed successfully" in data.textPayload:
+            return JobState.SUCCEEDED
+        elif "failed" in data.textPayload:
+            return JobState.FAILED
+        elif "cancelled" in data.textPayload:
+            return JobState.CANCELLED
 
-    return logger
+    elif isinstance(data.jsonPayload, JsonPayload):
+        if "queued" in data.jsonPayload.message:
+            return JobState.QUEUED
 
-
-def parse_pubsub_message(pubsub_message: Dict) -> Dict:
-
-    data = base64.b64decode(pubsub_message["message"]["data"]).decode("utf-8").strip()
-    data = json.loads(data)
-
-    return data
-
-
-def is_succeeded(json_payload: Dict) -> bool:
-
-    if "textPayload" in json_payload:
-        succeeded = "completed successfully" in json_payload["textPayload"]
-        return succeeded
     else:
-        return False
+        return None
 
 
-def is_failed(json_payload: Dict) -> bool:
+def maybe_publish_message(message: Dict) -> None:
 
-    if "textPayload" in json_payload:
-        failed = "failed" in json_payload["textPayload"]
-        return failed
+    logger = get_logger()
+
+    if os.environ.get("TARGET_TOPIC"):
+        publisher = pubsub_v1.PublisherClient()
+        future = publisher.publish(
+            topic=os.environ.get("TARGET_TOPIC"),
+            data=json.dumps(message).encode("utf-8"),
+        )
+        logger.info("Message was published.")
     else:
-        return False
-
-
-def is_queued(json_payload: Dict) -> bool:
-
-    if "jsonPayload" in json_payload:
-        queued = "queued" in json_payload["jsonPayload"]["message"]
-        return queued
-    else:
-        return False
-
-
-def is_cancelled(json_payload: Dict) -> bool:
-
-    if "textPayload" in json_payload:
-        cancelled = "cancelled" in json_payload["textPayload"]
-        return cancelled
-    else:
-        return False
-
-
-class Message(BaseModel):
-    attributes: Dict
-    data: str
-    messageId: str
-    message_id: str
-    publishTime: str
-    publish_time: str
-
-
-class PubSubMessage(BaseModel):
-    message: Message
-    subscription: str
+        logger.info("Environment variable TARGET_TOPIC is not found.")
 
 
 @app.post("/")
@@ -85,45 +49,30 @@ def main(pubsub_message: PubSubMessage) -> Dict:
 
     logger = get_logger()
 
+    logger.info(f"Pub/Sub message: {pubsub_message.json(indent=2)}")
+
     data_base64 = pubsub_message.message.data
-    data: Dict = json.loads(base64.b64decode(data_base64).decode("utf-8").strip())
+    data_dict: Dict = json.loads(base64.b64decode(data_base64).decode("utf-8").strip())
 
-    logger.info(pubsub_message.json())
-    logger.debug(data)
+    logger.info(f"Data: {json.dumps(data_dict, indent=2)}")
 
-    job_id = data["resource"]["labels"]["job_id"]
-    project_id = data["resource"]["labels"]["project_id"]
-    timestamp = data["timestamp"]
+    data: Data = Data(**data_dict)
 
-    if is_succeeded(data):
-        job_state = "SUCCEEDED"
-    elif is_failed(data):
-        job_state = "FAILED"
-    elif is_queued(data):
-        job_state = "QUEUED"
-    elif is_cancelled(data):
-        job_state = "CANCELLED"
-    else:
+    job_state = check_job_state(data)
+
+    if job_state is None:
         return {}
 
     output_message = {
-        "job_id": job_id,
-        "project_id": project_id,
-        "timestamp": timestamp,
-        "job_state": job_state,
+        "job_id": data.resource.labels.job_id,
+        "project_id": data.resource.labels.project_id,
+        "timestamp": data.timestamp,
+        "job_state": job_state.value,
     }
 
-    logger.info(output_message)
+    logger.info(f"Output message: {json.dumps(output_message, indent=2)}")
 
     # Publish message to Pub/Sub topic for notification.
-    if os.environ.get("TARGET_TOPIC"):
-        publisher = pubsub_v1.PublisherClient()
-        future = publisher.publish(
-            topic=os.environ.get("TARGET_TOPIC"),
-            data=json.dumps(output_message).encode("utf-8"),
-        )
-        logger.info("Message was published.")
-    else:
-        logger.info("Environment variable TARGET_TOPIC is not found.")
+    maybe_publish_message(output_message)
 
     return {}
