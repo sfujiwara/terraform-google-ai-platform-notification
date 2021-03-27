@@ -5,8 +5,14 @@ from pydantic import Field
 
 
 class Message(BaseModel):
-    attributes: Dict = Field(..., example={"logging.googleapis.com/timestamp": "2021-01-01T01:42:42.123456789Z"})
-    data: str = Field(..., example="eyJ0aW1lc3RhbXAiOiAiIiwgInJlc291cmNlIjogeyJsYWJlbHMiOiB7ImpvYl9pZCI6ICIiLCAicHJvamVjdF9pZCI6ICIifX0sICJ0ZXh0UGF5bG9hZCI6ICJKb2IgY29tcGxldGVkIHN1Y2Nlc3NmdWxseS4ifQo=")
+    attributes: Dict = Field(
+        ...,
+        example={"logging.googleapis.com/timestamp": "2021-01-01T01:42:42.123456789Z"},
+    )
+    data: str = Field(
+        ...,
+        example="eyJ0aW1lc3RhbXAiOiAiIiwgInJlc291cmNlIjogeyJsYWJlbHMiOiB7ImpvYl9pZCI6ICIiLCAicHJvamVjdF9pZCI6ICIifX0sICJ0ZXh0UGF5bG9hZCI6ICJKb2IgY29tcGxldGVkIHN1Y2Nlc3NmdWxseS4ifQo=",
+    )
     messageId: str = Field(..., example="1234567891234567")
     message_id: str = Field(..., example="1234567891234567")
     publishTime: str = Field(..., example="2021-01-01T01:42:42.42Z")
@@ -15,7 +21,9 @@ class Message(BaseModel):
 
 class PubSubMessage(BaseModel):
     message: Message
-    subscription: str = Field(..., example="projects/<project-id>/subscriptions/<subscription-name>")
+    subscription: str = Field(
+        ..., example="projects/<project-id>/subscriptions/<subscription-name>"
+    )
 
 
 class JobState(Enum):
