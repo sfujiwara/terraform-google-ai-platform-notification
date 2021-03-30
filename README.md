@@ -58,4 +58,28 @@ Replace `X.X.X` with the version you want to use.
 Docker image `gcr.io/sfujiwara/ai-platform-notification` is hosted on my Google Cloud Platform project `sfujiwara`, but there is no guarantee to be maintained.
 
 I **strongly recommend** you to build and host your own Docker image with [`cloudrun/Dockerfile`](cloudrun/Dockerfile).
- 
+
+## Terraform Docs
+
+This section is automatically generated with [terraform-docs](https://github.com/terraform-docs/terraform-docs).
+
+<!-- BEGIN_TF_DOCS -->
+
+### Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| project\_id | Google Cloud Platform project ID. | `string` | n/a | yes |
+| project\_number | Google Cloud Platform project number. | `string` | n/a | yes |
+| cloud\_run\_image | Docker image used on Cloud Run. | `string` | `"gcr.io/sfujiwara/ai-platform-notification:0.0.3"` | no |
+| log\_topic | Pub/Sub topic name for log sink. | `string` | `"ai-platform-log"` | no |
+| notification\_topic | Pub/Sub topic name for notification message. | `string` | `"ai-platform-notification"` | no |
+
+### Outputs
+
+| Name | Description |
+|------|-------------|
+| log\_topic | Pub/Sub topic name for log sink. |
+| notification\_topic | Pub/Sub topic name for notification message. |
+
+<!-- END_TF_DOCS -->
