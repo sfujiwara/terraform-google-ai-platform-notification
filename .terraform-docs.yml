@@ -1,0 +1,36 @@
+
+formatter: markdown
+
+sections:
+  hide-all: true
+  show:
+    # - providers
+    - inputs
+    - outputs
+    # - modules
+
+output:
+  file: README.md
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+
+    ## Terraform Docs
+
+    This section is automatically generated with [terraform-docs](https://github.com/terraform-docs/terraform-docs).
+
+    {{ .Content }}
+
+    <!-- END_TF_DOCS -->
+
+sort:
+  enabled: true
+  by:
+    - required
+
+settings:
+  indent: 3
+  escape: false
+  default: false
+  required: false
+  type: true

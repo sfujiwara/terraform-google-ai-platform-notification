@@ -59,3 +59,27 @@ Docker image `gcr.io/sfujiwara/ai-platform-notification` is hosted on my Google 
 
 I **strongly recommend** you to build and host your own Docker image with [`cloudrun/Dockerfile`](cloudrun/Dockerfile).
  
+<!-- BEGIN_TF_DOCS -->
+
+## Terraform Docs
+
+This section is automatically generated with [terraform-docs](https://github.com/terraform-docs/terraform-docs).
+
+### Inputs
+
+| Name | Description | Type |
+|------|-------------|------|
+| <a name="input_project_id"></a> [project_id](#input_project_id) | Google Cloud Platform project ID. | `string` |
+| <a name="input_project_number"></a> [project_number](#input_project_number) | Google Cloud Platform project number. | `string` |
+| <a name="input_cloud_run_image"></a> [cloud_run_image](#input_cloud_run_image) | n/a | `string` |
+| <a name="input_log_topic"></a> [log_topic](#input_log_topic) | n/a | `string` |
+| <a name="input_notification_topic"></a> [notification_topic](#input_notification_topic) | n/a | `string` |
+
+### Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_log_topic"></a> [log_topic](#output_log_topic) | n/a |
+| <a name="output_notification_topic"></a> [notification_topic](#output_notification_topic) | n/a |
+
+<!-- END_TF_DOCS -->

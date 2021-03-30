@@ -10,3 +10,4 @@ __pycache__
 .terraform
 .terraform.*
 terraform.*
+terraform-docs

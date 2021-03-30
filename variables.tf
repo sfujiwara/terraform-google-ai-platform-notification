@@ -1,9 +1,11 @@
 variable "project_id" {
-  type = string
+  type        = string
+  description = "Google Cloud Platform project ID."
 }
 
 variable "project_number" {
-  type = string
+  type        = string
+  description = "Google Cloud Platform project number."
 }
 
 variable "log_topic" {
