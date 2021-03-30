@@ -67,19 +67,19 @@ This section is automatically generated with [terraform-docs](https://github.com
 
 ### Inputs
 
-| Name | Description | Type |
-|------|-------------|------|
-| <a name="input_project_id"></a> [project_id](#input_project_id) | Google Cloud Platform project ID. | `string` |
-| <a name="input_project_number"></a> [project_number](#input_project_number) | Google Cloud Platform project number. | `string` |
-| <a name="input_cloud_run_image"></a> [cloud_run_image](#input_cloud_run_image) | n/a | `string` |
-| <a name="input_log_topic"></a> [log_topic](#input_log_topic) | n/a | `string` |
-| <a name="input_notification_topic"></a> [notification_topic](#input_notification_topic) | n/a | `string` |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| project\_id | Google Cloud Platform project ID. | `string` | n/a | yes |
+| project\_number | Google Cloud Platform project number. | `string` | n/a | yes |
+| cloud\_run\_image | n/a | `string` | `"gcr.io/sfujiwara/ai-platform-notification:0.0.3"` | no |
+| log\_topic | n/a | `string` | `"ai-platform-log"` | no |
+| notification\_topic | n/a | `string` | `"ai-platform-notification"` | no |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_log_topic"></a> [log_topic](#output_log_topic) | n/a |
-| <a name="output_notification_topic"></a> [notification_topic](#output_notification_topic) | n/a |
+| log\_topic | n/a |
+| notification\_topic | n/a |
 
 <!-- END_TF_DOCS -->

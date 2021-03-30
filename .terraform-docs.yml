@@ -29,8 +29,9 @@ sort:
     - required
 
 settings:
+  anchor: false
   indent: 3
-  escape: false
-  default: false
-  required: false
+  escape: true
+  default: true
+  required: true
   type: true
