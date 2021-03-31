@@ -1,6 +1,6 @@
 # AI Platform Notification
 
-![GitHub Actions](https://github.com/sfujiwara/terraform-google-ai-platform-notification/workflows/unit-test/badge.svg)
+![GitHub Actions](https://github.com/sfujiwara/terraform-google-ai-platform-notification/actions/workflows/config.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
