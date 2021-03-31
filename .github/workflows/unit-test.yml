@@ -60,3 +60,4 @@ jobs:
           chmod +x terraform-docs
 
       - name: Check terraform-docs diffs
+        run: git --no-pager diff
