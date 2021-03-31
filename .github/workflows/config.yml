@@ -1,4 +1,4 @@
-name: unit-test
+name: GitHub Actions
 
 on: [push]
 
