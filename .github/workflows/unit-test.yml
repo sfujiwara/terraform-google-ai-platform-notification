@@ -55,6 +55,6 @@ jobs:
 
       - name: Download terraform-docs
         run: |
-          curl -O https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-darwin-amd64.tar.gz
-          tar -zxvf terraform-docs-v0.12.1-darwin-amd64.tar.gz
-          ls
+          curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-$(uname)-amd64.tar.gz
+          tar -xzf terraform-docs.tar.gz
+          chmod +x terraform-docs
