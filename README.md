@@ -71,7 +71,7 @@ This section is automatically generated with [terraform-docs](https://github.com
 |------|-------------|------|---------|:--------:|
 | project\_id | Google Cloud Platform project ID. | `string` | n/a | yes |
 | project\_number | Google Cloud Platform project number. | `string` | n/a | yes |
-| cloud\_run\_image | Docker image used on Cloud Run. | `string` | `"gcr.io/sfujiwara/ai-platform-notification:0.0.3"` | no |
+| cloud\_run\_image | Docker image used on Cloud Run. | `string` | `"gcr.io/sfujiwara/ai-platform-notification:0.0.4"` | no |
 | log\_topic | Pub/Sub topic name for log sink. | `string` | `"ai-platform-log"` | no |
 | notification\_topic | Pub/Sub topic name for notification message. | `string` | `"ai-platform-notification"` | no |
 
