@@ -45,3 +45,16 @@ jobs:
 
       - name: Terraform fmt
         run: terraform fmt -diff -check -recursive .
+
+  terraform-docs:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download terraform-docs
+        run: |
+          curl -O https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-darwin-amd64.tar.gz
+          tar -zxvf terraform-docs-v0.12.1-darwin-amd64.tar.gz
+          ls
