@@ -64,4 +64,8 @@ jobs:
         run: ./tmp/terraform-docs .
 
       - name: Check terraform-docs diffs
-        run: git --no-pager diff
+        run: |
+          if [[ $(git --no-pager diff) ]] ; then
+            echo "You need to run `terraform-docs .` before commit."
+            git --no-pager diff
+            exit 1
