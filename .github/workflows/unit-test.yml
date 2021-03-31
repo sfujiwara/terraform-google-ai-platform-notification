@@ -55,9 +55,13 @@ jobs:
 
       - name: Download terraform-docs
         run: |
-          curl -Lo /tmp/terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-$(uname)-amd64.tar.gz
-          tar -xzf /tmp/terraform-docs.tar.gz
-          chmod +x /tmp/terraform-docs
+          mkdir tmp
+          curl -Lo tmp/terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-$(uname)-amd64.tar.gz
+          tar -xzf tmp/terraform-docs.tar.gz -C tmp
+          chmod +x tmp/terraform-docs
+
+      - name: Run terraform-docs
+        run: ./tmp/terraform-docs .
 
       - name: Check terraform-docs diffs
         run: git --no-pager diff
