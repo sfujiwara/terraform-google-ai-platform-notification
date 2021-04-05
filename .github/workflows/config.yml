@@ -28,7 +28,7 @@ jobs:
 
       - name: Unit tests
         working-directory: functions
-        run: pytest -sv tests
+        run: pytest -sv .
 
   terraform:
 
