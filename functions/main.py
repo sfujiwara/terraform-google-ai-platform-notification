@@ -3,8 +3,8 @@ import json
 import os
 from typing import Dict, Optional
 from google.cloud import pubsub_v1
-from .data import Event, Data, JobState, JsonPayload
-from ._logging import get_logger
+from data import Event, Data, JobState, JsonPayload
+from _logging import get_logger
 
 
 def check_job_state(data: Data) -> Optional[JobState]:
@@ -44,23 +44,25 @@ def main(event_dict: Dict, context) -> Dict:
 
     logger = get_logger()
 
-    logger.info(json.dumps(event_dict, indent=2))
-    logger.info(context)
+    logger.info(f"Event: {json.dumps(event_dict, indent=2)}")
+    logger.info(f"Context: {context}")
 
+    # Cast event from dict to Event instance.
     event = Event(**event_dict)
 
+    # Extract Base64 data from event.
     data_str = base64.b64decode(event.data).decode("utf-8").strip()
     data_dict = json.loads(data_str)
 
-    logger.info(json.dumps(data_dict, indent=2))
+    logger.info(f"Data: {json.dumps(data_dict, indent=2)}")
 
+    # Cast data from dict to Data instance.
     data = Data(**data_dict)
 
     job_state = check_job_state(data)
 
-    logger.info(f"Job state: {job_state}")
-
     if job_state is None:
+        logger.info(f"Message was not published because job state is {job_state}")
         return {}
 
     output_message = {

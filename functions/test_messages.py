@@ -1,7 +1,7 @@
 import json
 import pytest
-from ..main import check_job_state
-from ..data import Data, JobState
+from main import check_job_state
+from data import Data, JobState
 
 
 @pytest.mark.parametrize(
