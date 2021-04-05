@@ -17,13 +17,13 @@ The architecture is as below:
 
 This Terraform module creates components below:
 
-|          |     |
-|:---------|:----|
-| Log sink | Log sink sends AI Platform logs to Pub/Sub log topic. |
-| Pub/Sub log topic | This topic receives AI Platform logs via log sink. |
-| Cloud Storage bucket | This bucket is used to save source code for Cloud Functions. |
-| Cloud Storage object | This object is archived source code for Cloud Functions. |
-| Cloud Functions | This function receives AI Platform logs from Pub/Sub log topic, check the job state, and publish a message to the notification topic. |
+| Component                  | Description |
+|:---------------------------|:------------|
+| Log sink                   | Log sink sends AI Platform logs to Pub/Sub log topic. |
+| Pub/Sub log topic          | This topic receives AI Platform logs via log sink. |
+| Cloud Storage bucket       | This bucket is used to save source code for Cloud Functions. |
+| Cloud Storage object       | This object is archived source code for Cloud Functions. |
+| Cloud Functions            | This function receives AI Platform logs from Pub/Sub log topic, check the job state, and publish a message to the notification topic. |
 | Pub/Sub notification topic | This topic receives resulting message of AI Platform job state from Cloud Functions. |
 
 ## Message
