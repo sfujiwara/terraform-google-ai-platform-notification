@@ -9,7 +9,7 @@ steps:
 
   - name: "gcr.io/cloud-builders/docker"
     id: "Build Docker image"
-    dir: cloudrun
+    dir: functions
     args:
       - build
       - --tag

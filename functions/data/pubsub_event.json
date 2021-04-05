@@ -1,0 +1,7 @@
+{
+  "@type": "type.googleapis.com/google.pubsub.v1.PubsubMessage",
+  "attributes": {
+    "logging.googleapis.com/timestamp": "2021-01-01T01:42:42.123456789Z"
+  },
+  "data": "eyJ0aW1lc3RhbXAiOiAiIiwgInJlc291cmNlIjogeyJsYWJlbHMiOiB7ImpvYl9pZCI6ICIiLCAicHJvamVjdF9pZCI6ICIifX0sICJ0ZXh0UGF5bG9hZCI6ICJKb2IgY29tcGxldGVkIHN1Y2Nlc3NmdWxseS4ifQo=",
+}
