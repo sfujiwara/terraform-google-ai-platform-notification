@@ -1,3 +1,43 @@
+# Archive Cloud Functions' source code.
+data "archive_file" "functions" {
+  type        = "zip"
+  source_dir  = "${path.module}/functions"
+  output_path = "functions.zip"
+}
+
+# Cloud Storage bucket to save Cloud Functions' source code.
+resource "google_storage_bucket" "functions" {
+  name          = "${var.project_id}-ai-platform-notification"
+  location      = "us-central1"
+  project       = var.project_id
+  storage_class = "regional"
+}
+
+resource "google_storage_bucket_object" "functions" {
+  name   = "${data.archive_file.functions.output_md5}.zip"
+  bucket = google_storage_bucket.functions.name
+  source = data.archive_file.functions.output_path
+}
+
+resource "google_cloudfunctions_function" "function" {
+  name                  = "ai-platform-notification"
+  description           = "Cloud Functions to check AI Platform log messages."
+  runtime               = "python38"
+  available_memory_mb   = 128
+  source_archive_bucket = google_storage_bucket.functions.name
+  source_archive_object = google_storage_bucket_object.functions.name
+  entry_point           = "main"
+  project               = var.project_id
+  region                = "us-central1"
+  event_trigger {
+    event_type = "google.pubsub.topic.publish"
+    resource = google_pubsub_topic.ai_platform_log.id
+  }
+  environment_variables = {
+    TARGET_TOPIC = google_pubsub_topic.ai_platform_notification.id
+  }
+}
+
 # Pub/Sub topic to receive AI Platform logs.
 resource "google_pubsub_topic" "ai_platform_log" {
   name    = "ai-platform-log"
@@ -16,20 +56,6 @@ resource "google_service_account" "pubsub_sa" {
   account_id = "ai-platform-notification"
 }
 
-# Pub/Sub subscription to push message to Cloud Run.
-resource "google_pubsub_subscription" "ai_platform_log" {
-  name                 = "ai-platform-log"
-  project              = var.project_id
-  topic                = google_pubsub_topic.ai_platform_log.name
-  ack_deadline_seconds = 60
-  push_config {
-    push_endpoint = google_cloud_run_service.ai_platform_notification.status[0].url
-    oidc_token {
-      service_account_email = google_service_account.pubsub_sa.email
-    }
-  }
-}
-
 # Log sink to send AI Platform logs to Stackdriver Logging.
 resource "google_logging_project_sink" "ai_platform_log" {
   name                   = "ai-platform-log"
@@ -44,41 +70,4 @@ resource "google_pubsub_topic_iam_member" "log_sink_sa" {
   topic   = google_pubsub_topic.ai_platform_log.name
   role    = "roles/pubsub.publisher"
   member  = google_logging_project_sink.ai_platform_log.writer_identity
-}
-
-resource "google_cloud_run_service" "ai_platform_notification" {
-  name     = "ai-platform-notification"
-  project  = var.project_id
-  location = "us-central1"
-
-  template {
-    spec {
-      containers {
-        image = var.cloud_run_image
-        env {
-          # Gunicorn automatically use environment variable `WEB_CONCURRENCY` as the number of workers.
-          name  = "WEB_CONCURRENCY"
-          value = 2
-        }
-        env {
-          name  = "TARGET_TOPIC"
-          value = google_pubsub_topic.ai_platform_notification.id
-        }
-      }
-    }
-  }
-}
-
-resource "google_cloud_run_service_iam_member" "pubsub_sa" {
-  location = google_cloud_run_service.ai_platform_notification.location
-  project  = google_cloud_run_service.ai_platform_notification.project
-  service  = google_cloud_run_service.ai_platform_notification.name
-  role     = "roles/run.invoker"
-  member   = "serviceAccount:${google_service_account.pubsub_sa.email}"
-}
-
-resource "google_project_iam_member" "default_pubsub_sa" {
-  project = var.project_id
-  member  = "serviceAccount:service-${var.project_number}@gcp-sa-pubsub.iam.gserviceaccount.com"
-  role    = "roles/iam.serviceAccountTokenCreator"
 }

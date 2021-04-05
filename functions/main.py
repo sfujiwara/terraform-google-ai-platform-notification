@@ -1,14 +1,10 @@
 import base64
 import json
 import os
-from fastapi import FastAPI
 from typing import Dict, Optional
 from google.cloud import pubsub_v1
-from .data import PubSubMessage, Data, JobState, JsonPayload
-from .logging import get_logger
-
-
-app = FastAPI()
+from data import Event, Data, JobState, JsonPayload
+from _logging import get_logger
 
 
 def check_job_state(data: Data) -> Optional[JobState]:
@@ -44,21 +40,25 @@ def maybe_publish_message(message: Dict) -> None:
         logger.info("Environment variable TARGET_TOPIC is not found.")
 
 
-@app.post("/")
-def main(pubsub_message: PubSubMessage) -> Dict:
+def main(event_dict: Dict, context) -> Dict:
 
     logger = get_logger()
 
-    logger.info(f"Pub/Sub message: {pubsub_message.json(indent=2)}")
+    logger.info(json.dumps(event_dict, indent=2))
+    logger.info(context)
 
-    data_base64 = pubsub_message.message.data
-    data_dict: Dict = json.loads(base64.b64decode(data_base64).decode("utf-8").strip())
+    event = Event(**event_dict)
 
-    logger.info(f"Data: {json.dumps(data_dict, indent=2)}")
+    data_str = base64.b64decode(event.data).decode("utf-8").strip()
+    data_dict = json.loads(data_str)
 
-    data: Data = Data(**data_dict)
+    logger.info(json.dumps(data_dict, indent=2))
+
+    data = Data(**data_dict)
 
     job_state = check_job_state(data)
+
+    logger.info(f"Job state: {job_state}")
 
     if job_state is None:
         return {}

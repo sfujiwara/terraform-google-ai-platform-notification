@@ -17,19 +17,18 @@ jobs:
           python-version: 3.8
 
       - name: Install dependencies
-        working-directory: cloudrun
+        working-directory: functions
         run: |
-          pip install poetry
-          poetry config virtualenvs.in-project true
-          poetry install
+          pip install -r requirements.txt
+          pip install -r requirements-test.txt
 
       - name: Run formatter
-        working-directory: cloudrun
-        run: poetry run black --diff --check .
+        working-directory: functions
+        run: black --diff --check .
 
       - name: Unit tests
-        working-directory: cloudrun
-        run: poetry run pytest -sv tests
+        working-directory: functions
+        run: pytest -sv tests
 
   terraform:
 

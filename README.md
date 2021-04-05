@@ -15,15 +15,16 @@ The architecture is as below:
 
 <img src="img/architecture.png" width="800"/>
 
-This Terraform module create
+This Terraform module creates components below:
 
-- Log sink to Pub/Sub topic
-- Pub/Sub topic to receive the logs
-  - This topic push the logs to Cloud Run service
-- Cloud Run to receive message from log topic
-  - Cloud Run checks AI Platform job status using the logs
-- Pub/Sub topic to receive notification from Cloud Run
-  - You can use this topic to know the changes of AI Platform jobs
+|          |     |
+|:---------|:----|
+| Log sink | Log sink sends AI Platform logs to Pub/Sub log topic. |
+| Pub/Sub log topic | This topic receives AI Platform logs via log sink. |
+| Cloud Storage bucket | This bucket is used to save source code for Cloud Functions. |
+| Cloud Storage object | This object is archived source code for Cloud Functions. |
+| Cloud Functions | This function receives AI Platform logs from Pub/Sub log topic, check the job state, and publish a message to the notification topic. |
+| Pub/Sub notification topic | This topic receives resulting message of AI Platform job state from Cloud Functions. |
 
 ## Message
 
@@ -46,18 +47,8 @@ The message published to notification topic is as below:
 module "ai_platform_notification" {
   source              = "git::https://github.com/sfujiwara/terraform-google-ai-platform-notification.git?ref=vX.X.X"
   project_id          = "your-project-id"
-  project_number      = "your-project-number"
-  cloud_run_image     = "gcr.io/sfujiwara/ai-platform-notification:X.X.X"
 }
 ```
-
-Replace `X.X.X` with the version you want to use. 
-
-## Docker image for Cloud Run
-
-Docker image `gcr.io/sfujiwara/ai-platform-notification` is hosted on my Google Cloud Platform project `sfujiwara`, but there is no guarantee to be maintained.
-
-I **strongly recommend** you to build and host your own Docker image with [`cloudrun/Dockerfile`](cloudrun/Dockerfile).
 
 ## Terraform Docs
 
@@ -70,8 +61,6 @@ This section is automatically generated with [terraform-docs](https://github.com
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | project\_id | Google Cloud Platform project ID. | `string` | n/a | yes |
-| project\_number | Google Cloud Platform project number. | `string` | n/a | yes |
-| cloud\_run\_image | Docker image used on Cloud Run. | `string` | `"gcr.io/sfujiwara/ai-platform-notification:0.0.4"` | no |
 | log\_topic | Pub/Sub topic name for log sink. | `string` | `"ai-platform-log"` | no |
 | notification\_topic | Pub/Sub topic name for notification message. | `string` | `"ai-platform-notification"` | no |
 

@@ -5,8 +5,6 @@ provider "google-beta" {
 module "ai_platform_notification" {
   source          = "../"
   project_id      = var.project_id
-  project_number  = var.project_number
-  cloud_run_image = var.cloud_run_image
 }
 
 resource "google_pubsub_subscription" "ai_platform_notification" {
