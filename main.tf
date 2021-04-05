@@ -31,7 +31,7 @@ resource "google_cloudfunctions_function" "function" {
   region                = "us-central1"
   event_trigger {
     event_type = "google.pubsub.topic.publish"
-    resource = google_pubsub_topic.ai_platform_log.id
+    resource   = google_pubsub_topic.ai_platform_log.id
   }
   environment_variables = {
     TARGET_TOPIC = google_pubsub_topic.ai_platform_notification.id

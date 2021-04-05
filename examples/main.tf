@@ -3,8 +3,8 @@ provider "google-beta" {
 }
 
 module "ai_platform_notification" {
-  source          = "../"
-  project_id      = var.project_id
+  source     = "../"
+  project_id = var.project_id
 }
 
 resource "google_pubsub_subscription" "ai_platform_notification" {
