@@ -8,6 +8,7 @@ class Event(BaseModel):
     """
     Pub/Sub event pushed to Cloud Functions.
     """
+
     attributes: Dict = Field(
         ...,
         example={"logging.googleapis.com/timestamp": "2021-01-01T01:42:42.123456789Z"},
