@@ -3,8 +3,8 @@ import json
 import os
 from typing import Dict, Optional
 from google.cloud import pubsub_v1
-from data import Event, Data, JobState, JsonPayload
-from _logging import get_logger
+from .data import Event, Data, JobState, JsonPayload
+from ._logging import get_logger
 
 
 def check_job_state(data: Data) -> Optional[JobState]:
