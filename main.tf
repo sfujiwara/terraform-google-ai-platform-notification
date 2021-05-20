@@ -2,7 +2,7 @@
 data "archive_file" "functions" {
   type        = "zip"
   source_dir  = "${path.module}/functions"
-  output_path = "functions.zip"
+  output_path = "${path.module}/functions.zip"
 }
 
 # Cloud Storage bucket to save Cloud Functions' source code.
