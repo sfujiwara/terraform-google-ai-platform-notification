@@ -15,9 +15,9 @@ The architecture is as below:
 
 <img src="img/architecture.png" width="800"/>
 
-This Terraform module creates components below:
+This Terraform module creates resources below:
 
-| Component                  | Description |
+| Resources                  | Description |
 |:---------------------------|:------------|
 | Log sink                   | Log sink sends AI Platform logs to Pub/Sub log topic. |
 | Pub/Sub log topic          | This topic receives AI Platform logs via log sink. |
