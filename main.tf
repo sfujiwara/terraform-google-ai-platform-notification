@@ -10,7 +10,7 @@ resource "google_storage_bucket" "functions" {
   name          = "${var.project_id}-ai-platform-notification"
   location      = "us-central1"
   project       = var.project_id
-  storage_class = "regional"
+  storage_class = "REGIONAL"
 }
 
 resource "google_storage_bucket_object" "functions" {
