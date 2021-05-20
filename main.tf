@@ -50,12 +50,6 @@ resource "google_pubsub_topic" "ai_platform_notification" {
   project = var.project_id
 }
 
-# Service account to push message to Cloud Run.
-resource "google_service_account" "pubsub_sa" {
-  project    = var.project_id
-  account_id = "ai-platform-notification"
-}
-
 # Log sink to send AI Platform logs to Stackdriver Logging.
 resource "google_logging_project_sink" "ai_platform_log" {
   name                   = "ai-platform-log"
