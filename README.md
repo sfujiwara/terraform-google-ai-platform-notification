@@ -60,7 +60,7 @@ This section is automatically generated with [terraform-docs](https://github.com
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| project\_id | Google Cloud Platform project ID. | `string` | n/a | yes |
+| project | Google Cloud Platform project ID. | `string` | n/a | yes |
 | log\_topic | Pub/Sub topic name for log sink. | `string` | `"ai-platform-log"` | no |
 | notification\_topic | Pub/Sub topic name for notification message. | `string` | `"ai-platform-notification"` | no |
 
