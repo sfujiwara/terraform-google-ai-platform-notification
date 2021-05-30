@@ -7,9 +7,9 @@ data "archive_file" "functions" {
 
 # Cloud Storage bucket to save Cloud Functions' source code.
 resource "google_storage_bucket" "functions" {
-  name          = "${var.project_id}-ai-platform-notification"
+  name          = "${var.project}-ai-platform-notification"
   location      = "us-central1"
-  project       = var.project_id
+  project       = var.project
   storage_class = "REGIONAL"
 }
 
@@ -27,7 +27,7 @@ resource "google_cloudfunctions_function" "function" {
   source_archive_bucket = google_storage_bucket.functions.name
   source_archive_object = google_storage_bucket_object.functions.name
   entry_point           = "main"
-  project               = var.project_id
+  project               = var.project
   region                = "us-central1"
   event_trigger {
     event_type = "google.pubsub.topic.publish"
@@ -41,19 +41,19 @@ resource "google_cloudfunctions_function" "function" {
 # Pub/Sub topic to receive AI Platform logs.
 resource "google_pubsub_topic" "ai_platform_log" {
   name    = "ai-platform-log"
-  project = var.project_id
+  project = var.project
 }
 
 # Pub/Sub topic to receive push notifications from Cloud Run.
 resource "google_pubsub_topic" "ai_platform_notification" {
   name    = "ai-platform-notification"
-  project = var.project_id
+  project = var.project
 }
 
 # Log sink to send AI Platform logs to Stackdriver Logging.
 resource "google_logging_project_sink" "ai_platform_log" {
   name                   = "ai-platform-log"
-  project                = var.project_id
+  project                = var.project
   destination            = "pubsub.googleapis.com/${google_pubsub_topic.ai_platform_log.id}"
   filter                 = "resource.type=ml_job AND resource.labels.task_name=service"
   unique_writer_identity = true
