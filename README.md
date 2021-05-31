@@ -45,8 +45,8 @@ The message published to notification topic is as below:
 
 ```terraform
 module "ai_platform_notification" {
-  source     = "git::https://github.com/sfujiwara/terraform-google-ai-platform-notification.git?ref=vX.X.X"
-  project_id = "your-project-id"
+  source  = "git::https://github.com/sfujiwara/terraform-google-ai-platform-notification.git?ref=vX.X.X"
+  project = "your-project-id"
 }
 ```
 
