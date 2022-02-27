@@ -1,0 +1,9 @@
+version: "3"
+services:
+  terraform-docs:
+    image: quay.io/terraform-docs/terraform-docs:0.12.1
+    entrypoint: terraform-docs
+    command: markdown .
+    working_dir: /terraform-google-ai-platform-notification
+    volumes:
+      - .:/terraform-google-ai-platform-notification
