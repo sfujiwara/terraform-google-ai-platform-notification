@@ -53,7 +53,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run terraform-docs
-        run: docker-compose terraform-docs
+        run: docker-compose up terraform-docs
 
       - name: Check terraform-docs diffs
         run: |

@@ -7,10 +7,10 @@ data "archive_file" "functions" {
 
 # Cloud Storage bucket to save Cloud Functions' source code.
 resource "google_storage_bucket" "functions" {
-  name          = "${var.project}-ai-platform-notification"
-  location      = var.region
-  project       = var.project
-  storage_class = "REGIONAL"
+  name                        = "${var.project}-ai-platform-notification"
+  location                    = var.region
+  project                     = var.project
+  storage_class               = "REGIONAL"
   uniform_bucket_level_access = true
 }
 
