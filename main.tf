@@ -7,10 +7,11 @@ data "archive_file" "functions" {
 
 # Cloud Storage bucket to save Cloud Functions' source code.
 resource "google_storage_bucket" "functions" {
-  name          = "${var.project}-ai-platform-notification"
-  location      = "us-central1"
-  project       = var.project
-  storage_class = "REGIONAL"
+  name                        = "${var.project}-ai-platform-notification"
+  location                    = var.region
+  project                     = var.project
+  storage_class               = "REGIONAL"
+  uniform_bucket_level_access = true
 }
 
 resource "google_storage_bucket_object" "functions" {
@@ -28,7 +29,7 @@ resource "google_cloudfunctions_function" "function" {
   source_archive_object = google_storage_bucket_object.functions.name
   entry_point           = "main"
   project               = var.project
-  region                = "us-central1"
+  region                = var.region
   event_trigger {
     event_type = "google.pubsub.topic.publish"
     resource   = google_pubsub_topic.ai_platform_log.id

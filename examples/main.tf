@@ -5,6 +5,7 @@ provider "google-beta" {
 module "ai_platform_notification" {
   source  = "../"
   project = var.project
+  region  = var.region
 }
 
 resource "google_pubsub_subscription" "ai_platform_notification" {

@@ -52,15 +52,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Download terraform-docs
-        run: |
-          mkdir tmp
-          curl -Lo tmp/terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.12.1/terraform-docs-v0.12.1-$(uname)-amd64.tar.gz
-          tar -xzf tmp/terraform-docs.tar.gz -C tmp
-          chmod +x tmp/terraform-docs
-
       - name: Run terraform-docs
-        run: ./tmp/terraform-docs .
+        run: docker-compose up terraform-docs
 
       - name: Check terraform-docs diffs
         run: |
