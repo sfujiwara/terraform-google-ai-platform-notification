@@ -9,4 +9,4 @@ gcloud ai-platform jobs submit training "${JOB_ID}" \
   --master-image-uri gcr.io/cloud-builders/gcloud \
   --labels "user=test,hoge=fuga" \
   -- \
-  --help
+  config list
