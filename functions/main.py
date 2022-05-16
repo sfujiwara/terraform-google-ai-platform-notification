@@ -48,11 +48,8 @@ def check_job_state(data: Data) -> Optional[JobState]:
             return JobState.FAILED
         elif "cancelled" in data.textPayload:
             return JobState.CANCELLED
-
-    elif isinstance(data.jsonPayload, JsonPayload):
-        if "queued" in data.jsonPayload.message:
+        elif "Waiting for job to be provisioned" in data.textPayload:
             return JobState.QUEUED
-
     else:
         return None
 
