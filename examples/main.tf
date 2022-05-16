@@ -6,7 +6,7 @@ module "ai_platform_notification" {
   source  = "../"
   project = var.project
   region  = var.region
-  label   = {
+  label = {
     key   = "notification"
     value = "hoge"
   }

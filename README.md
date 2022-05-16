@@ -72,7 +72,7 @@ This section is automatically generated with [terraform-docs](https://github.com
 |------|-------------|------|---------|:--------:|
 | project | Google Cloud Platform project ID. | `string` | n/a | yes |
 | region | Region of Cloud Functions and Cloud Storage bucket. | `string` | n/a | yes |
-| label | Statuses of jobs with label `key:value` are published to Pub/Sub. If both key and value are `null`, all jobs are the targets (for compatibility). | <pre>object({<br>    key   = string<br>    value = string<br>  })</pre> | <pre>{<br>  "key": null,<br>  "value": null<br>}</pre> | no |
+| label | Statuses of jobs with label `key:value` are published to Pub/Sub. If `key` is `null`, all jobs are the targets (for compatibility). | <pre>object({<br>    key   = string<br>    value = string<br>  })</pre> | <pre>{<br>  "key": null,<br>  "value": null<br>}</pre> | no |
 | log\_topic | Pub/Sub topic name for log sink. | `string` | `"ai-platform-log"` | no |
 | notification\_topic | Pub/Sub topic name for notification message. | `string` | `"ai-platform-notification"` | no |
 

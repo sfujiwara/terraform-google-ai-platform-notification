@@ -3,11 +3,11 @@ import json
 import os
 from typing import Dict, Optional
 import google.auth
+from googleapiclient import discovery
 from google.cloud import aiplatform
 from google.cloud import pubsub_v1
 from data import Event, Data, JobState, JsonPayload
 from _logging import get_logger
-from googleapiclient import discovery
 
 
 def has_valid_label(job_id: str) -> bool:
@@ -17,7 +17,8 @@ def has_valid_label(job_id: str) -> bool:
     else:
         # AI Platform Training job.
         _, project = google.auth.default()
-        ml = discovery.build("ml", "v1").projects().jobs().get(name=f"projects/{project}/jobs/{job_id}")
+        ml = discovery.build("ml", "v1").projects().jobs()
+        ml = ml.get(name=f"projects/{project}/jobs/{job_id}")
         res = ml.execute()
         labels = res["labels"]
 

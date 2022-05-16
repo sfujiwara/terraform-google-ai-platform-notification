@@ -29,5 +29,5 @@ variable "label" {
     key   = null
     value = null
   }
-  description = "Statuses of jobs with label `key:value` are published to Pub/Sub. If both key and value are `null`, all jobs are the targets (for compatibility)."
+  description = "Statuses of jobs with label `key:value` are published to Pub/Sub. If `key` is `null`, all jobs are the targets (for compatibility)."
 }
