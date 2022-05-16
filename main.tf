@@ -24,7 +24,7 @@ resource "google_cloudfunctions_function" "function" {
   name                  = "ai-platform-notification"
   description           = "Cloud Functions to check AI Platform log messages."
   runtime               = "python38"
-  available_memory_mb   = 128
+  available_memory_mb   = 256
   source_archive_bucket = google_storage_bucket.functions.name
   source_archive_object = google_storage_bucket_object.functions.name
   entry_point           = "main"

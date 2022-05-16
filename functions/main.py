@@ -11,6 +11,8 @@ from _logging import get_logger
 
 
 def has_valid_label(job_id: str) -> bool:
+    logger = get_logger()
+
     if job_id.startswith(tuple("0123456709")):
         # Vertex AI Training job.
         labels = aiplatform.CustomJob.get(resource_name=job_id).labels
@@ -22,12 +24,16 @@ def has_valid_label(job_id: str) -> bool:
         res = ml.execute()
         labels = res["labels"]
 
+    logger.info(f"labels: {json.dumps(labels)}")
+
     key = os.environ.get("LABEL_KEY")
     val = os.environ.get("LABEL_VALUE")
 
     if key is None:
         return True
-    elif key in labels and (labels[key] == val or labels[key] == ""):
+    elif key in labels and labels[key] == val:
+        return True
+    elif key in labels and labels[key] == "" and val is None:
         return True
     else:
         return False
@@ -85,14 +91,15 @@ def main(event_dict: Dict, context) -> Dict:
     # Cast data from dict to Data instance.
     data = Data(**data_dict)
 
-    # Check labels.
-    if not has_valid_label(data.resource.labels.job_id):
-        return {}
-
     # Check job state.
     job_state = check_job_state(data)
     if job_state is None:
         logger.info(f"Message was not published because job state is {job_state}")
+        return {}
+
+    # Check labels.
+    if not has_valid_label(data.resource.labels.job_id):
+        logger.info(f"Message was not published because label is invalid {job_state}")
         return {}
 
     output_message = {
