@@ -13,11 +13,17 @@ This module might be helpful until the notification is officially supported.
 
 The architecture is as below:
 
-<img src="img/architecture.png" width="800"/>
+```mermaid
+flowchart LR
+  aiplatform(AI Platform) --> logging(Cloud Logging)
+  logging -- log sink --> pubsub1(Cloud Pub/Sub)
+  pubsub1 -- push --> functions(Cloud Functions)
+  functions --> pubsub2(Cloud Pub/Sub)
+```
 
 This Terraform module creates resources below:
 
-| Resources                  | Description |
+| Resource                   | Description |
 |:---------------------------|:------------|
 | Log sink                   | Log sink sends AI Platform logs to Pub/Sub log topic. |
 | Pub/Sub log topic          | This topic receives AI Platform logs via log sink. |
@@ -39,7 +45,7 @@ The message published to notification topic is as below:
 }
 ```
 
-`job_state` is QUEUED, SUCCEEDED, CANCELLED, or FAILED.
+`job_state` is `QUEUED`, `SUCCEEDED`, `CANCELLED`, or `FAILED`.
 
 ## Usage
 
