@@ -19,3 +19,15 @@ variable "notification_topic" {
   default     = "ai-platform-notification"
   description = "Pub/Sub topic name for notification message."
 }
+
+variable "label" {
+  type = object({
+    key   = string
+    value = string
+  })
+  default = {
+    key   = null
+    value = null
+  }
+  description = "Statuses of jobs with label `key:value` are published to Pub/Sub. If both key and value are `null`, all jobs are the targets (for compatibility)."
+}

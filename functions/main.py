@@ -10,16 +10,26 @@ from _logging import get_logger
 from googleapiclient import discovery
 
 
-def get_tags(job_id: str) -> Dict:
+def has_valid_label(job_id: str) -> bool:
     if job_id.startswith(tuple("0123456709")):
         # Vertex AI Training job.
-        return aiplatform.CustomJob.get(resource_name=job_id).labels
+        labels = aiplatform.CustomJob.get(resource_name=job_id).labels
     else:
         # AI Platform Training job.
         _, project = google.auth.default()
         ml = discovery.build("ml", "v1").projects().jobs().get(name=f"projects/{project}/jobs/{job_id}")
         res = ml.execute()
-        return res["labels"]
+        labels = res["labels"]
+
+    key = os.environ.get("LABEL_KEY")
+    val = os.environ.get("LABEL_VALUE")
+
+    if key is None:
+        return True
+    elif key in labels and (labels[key] == val or labels[key] == ""):
+        return True
+    else:
+        return False
 
 
 def check_job_state(data: Data) -> Optional[JobState]:
@@ -74,8 +84,12 @@ def main(event_dict: Dict, context) -> Dict:
     # Cast data from dict to Data instance.
     data = Data(**data_dict)
 
-    job_state = check_job_state(data)
+    # Check labels.
+    if not has_valid_label(data.resource.labels.job_id):
+        return {}
 
+    # Check job state.
+    job_state = check_job_state(data)
     if job_state is None:
         logger.info(f"Message was not published because job state is {job_state}")
         return {}

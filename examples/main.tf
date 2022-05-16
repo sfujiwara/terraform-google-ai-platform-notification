@@ -6,6 +6,10 @@ module "ai_platform_notification" {
   source  = "../"
   project = var.project
   region  = var.region
+  label   = {
+    key   = "notification"
+    value = "hoge"
+  }
 }
 
 resource "google_pubsub_subscription" "ai_platform_notification" {

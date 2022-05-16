@@ -36,6 +36,8 @@ resource "google_cloudfunctions_function" "function" {
   }
   environment_variables = {
     TARGET_TOPIC = google_pubsub_topic.ai_platform_notification.id
+    LABEL_KEY    = var.label.key
+    LABEL_VALUE  = var.label.value
   }
 }
 
