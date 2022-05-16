@@ -2,9 +2,24 @@ import base64
 import json
 import os
 from typing import Dict, Optional
+import google.auth
+from google.cloud import aiplatform
 from google.cloud import pubsub_v1
 from data import Event, Data, JobState, JsonPayload
 from _logging import get_logger
+from googleapiclient import discovery
+
+
+def get_tags(job_id: str) -> Dict:
+    if job_id.startswith(tuple("0123456709")):
+        # Vertex AI Training job.
+        return aiplatform.CustomJob.get(resource_name=job_id).labels
+    else:
+        # AI Platform Training job.
+        _, project = google.auth.default()
+        ml = discovery.build("ml", "v1").projects().jobs().get(name=f"projects/{project}/jobs/{job_id}")
+        res = ml.execute()
+        return res["labels"]
 
 
 def check_job_state(data: Data) -> Optional[JobState]:
