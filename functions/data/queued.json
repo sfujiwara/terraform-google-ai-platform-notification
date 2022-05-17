@@ -1,21 +1,19 @@
 {
-  "insertId": "gdfrjpcfef",
-  "receiveTimestamp": "2020-12-21T20:14:30.351799706Z",
-  "timestamp": "2020-12-21T20:14:30.184Z",
-  "logName": "projects/<your-project-id>/logs/ml.googleapis.com%2F<your-job-id>",
-  "resource": {
-    "type": "ml_job",
-    "labels": {
-      "task_name": "service",
-      "job_id": "<your-job-id>",
-      "project_id": "<your-project-id>"
-    }
-  },
+  "insertId": "mrkbzpd3cmw",
   "labels": {
-    "ml.googleapis.com/job_state": "QUEUED",
-    "ml.googleapis.com/endpoint": "ml.googleapis.com"
+    "ml.googleapis.com/endpoint": ""
   },
-  "jsonPayload": {
-    "message": "Job <your-job-id> is queued."
-  }
+  "logName": "projects/<your-project-id>/logs/ml.googleapis.com%2Fexample_20220516153857",
+  "receiveTimestamp": "2022-05-16T06:39:01.042074416Z",
+  "resource": {
+    "labels": {
+      "job_id": "<your-job-id>",
+      "project_id": "<your-project-id>",
+      "task_name": "service"
+    },
+    "type": "ml_job"
+  },
+  "severity": "INFO",
+  "textPayload": "Waiting for job to be provisioned.",
+  "timestamp": "2022-05-16T06:39:00.376230872Z"
 }
