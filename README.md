@@ -16,9 +16,9 @@ The architecture is as below:
 ```mermaid
 flowchart LR
   ai(AI Platform<br>or<br>Vertex AI) --> logging(Cloud Logging)
-  logging -- log sink --> pubsub1(Cloud Pub/Sub)
+  logging -- log sink --> pubsub1(Cloud Pub/Sub<br>log topic)
   pubsub1 -- push --> functions(Cloud Functions)
-  functions --> pubsub2(Cloud Pub/Sub)
+  functions --> pubsub2(Cloud Pub/Sub<br>notification topic)
 ```
 
 This Terraform module creates resources below:
