@@ -2,9 +2,41 @@ import base64
 import json
 import os
 from typing import Dict, Optional
+import google.auth
+from googleapiclient import discovery
+from google.cloud import aiplatform
 from google.cloud import pubsub_v1
 from data import Event, Data, JobState, JsonPayload
 from _logging import get_logger
+
+
+def has_valid_label(job_id: str) -> bool:
+    logger = get_logger()
+
+    if job_id.startswith(tuple("0123456709")):
+        # Vertex AI Training job.
+        labels = aiplatform.CustomJob.get(resource_name=job_id).labels
+    else:
+        # AI Platform Training job.
+        _, project = google.auth.default()
+        ml = discovery.build("ml", "v1").projects().jobs()
+        ml = ml.get(name=f"projects/{project}/jobs/{job_id}")
+        res = ml.execute()
+        labels = res["labels"]
+
+    logger.info(f"labels: {json.dumps(labels)}")
+
+    key = os.environ.get("LABEL_KEY")
+    val = os.environ.get("LABEL_VALUE")
+
+    if key is None:
+        return True
+    elif key in labels and labels[key] == val:
+        return True
+    elif key in labels and labels[key] == "" and val is None:
+        return True
+    else:
+        return False
 
 
 def check_job_state(data: Data) -> Optional[JobState]:
@@ -16,11 +48,8 @@ def check_job_state(data: Data) -> Optional[JobState]:
             return JobState.FAILED
         elif "cancelled" in data.textPayload:
             return JobState.CANCELLED
-
-    elif isinstance(data.jsonPayload, JsonPayload):
-        if "queued" in data.jsonPayload.message:
+        elif "Waiting for job to be provisioned" in data.textPayload:
             return JobState.QUEUED
-
     else:
         return None
 
@@ -59,10 +88,15 @@ def main(event_dict: Dict, context) -> Dict:
     # Cast data from dict to Data instance.
     data = Data(**data_dict)
 
+    # Check job state.
     job_state = check_job_state(data)
-
     if job_state is None:
         logger.info(f"Message was not published because job state is {job_state}")
+        return {}
+
+    # Check labels.
+    if not has_valid_label(data.resource.labels.job_id):
+        logger.info(f"Message was not published because label is invalid {job_state}")
         return {}
 
     output_message = {
