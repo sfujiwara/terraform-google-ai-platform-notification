@@ -15,7 +15,7 @@ The architecture is as below:
 
 ```mermaid
 flowchart LR
-  ai(AI Platform or Vertex AI) --> logging(Cloud Logging)
+  ai(AI Platform<br>or<br>Vertex AI) --> logging(Cloud Logging)
   logging -- log sink --> pubsub1(Cloud Pub/Sub)
   pubsub1 -- push --> functions(Cloud Functions)
   functions --> pubsub2(Cloud Pub/Sub)
